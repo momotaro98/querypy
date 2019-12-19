@@ -1,30 +1,31 @@
+from __future__ import annotations
 from typing import Dict, List
 import csv
-from querypy.Term import VariableTerm, SubstituteDict
-from querypy.Item import *
-from querypy.Formula import Formula
-from querypy.local_types import *
+import querypy.Term as Term
+import querypy.Item as Item
+import querypy.Formula as Formula
+import querypy.local_types as ltype
 
 class Querypy:
-    def __init__(self, data: Dict[ItemId, Item], terms: Dict[ItemPropertyName, VariableTerm], properties: List[ItemPropertyName]):
+    def __init__(self, data: Dict[Item.ItemId, Item.Item], terms: Dict[Item.ItemPropertyName, Term.VariableTerm], properties: List[Item.ItemPropertyName]):
         self.data  = data
         self.terms = terms
         self.properties = properties
     
-    def __getitem__(self, key: ItemId) -> Item:
+    def __getitem__(self, key: Item.ItemId) -> Item.Item:
         return self.data[key]
 
-    def get_term(self, propertyName: ItemPropertyName) -> VariableTerm:
+    def get_term(self, propertyName: Item.ItemPropertyName) -> Term.VariableTerm:
         if propertyName in self.terms.keys():
             return self.terms[propertyName]
         else:
             raise KeyError("Unknown property name: " + propertyName)
     
-    def get_data(self, item_id: ItemId, prop: ItemPropertyName) -> Number:
+    def get_data(self, item_id: Item.ItemId, prop: Item.ItemPropertyName) -> ltype.Number:
         return self[item_id][prop]
     
-    def find(self, formula: Formula) -> List[ItemId]:
-        def get_substitute(item_id: ItemId) -> SubstituteDict:
+    def find(self, formula: Formula.Formula) -> List[Item.ItemId]:
+        def get_substitute(item_id: Item.ItemId) -> Term.SubstituteDict:
             return {
                 prop: self[item_id][prop] for prop in self.properties
             }
@@ -36,11 +37,11 @@ class Querypy:
         ]
 
 
-def read_csv(filename: str, id_row: ItemId) -> Querypy:  
+def read_csv(filename: str, id_row: Item.ItemId) -> Querypy:  
     csv_dict_reader = csv.DictReader(open(filename))
     properties = [ prop for prop in csv_dict_reader.fieldnames if prop != id_row ]
 
-    def produce_dict(row) -> Item:
+    def produce_dict(row) -> Item.Item:
         return { prop: row[prop] for prop in properties}
     
     data = {
@@ -48,5 +49,5 @@ def read_csv(filename: str, id_row: ItemId) -> Querypy:
         for row in csv_dict_reader
     } 
 
-    term_dict = { prop: VariableTerm(prop) for prop in properties }
+    term_dict = { prop: Term.VariableTerm(prop) for prop in properties }
     return Querypy(data, term_dict, properties)

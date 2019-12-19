@@ -1,6 +1,7 @@
+from __future__ import annotations
 from typing import Dict
-from querypy.local_types import *
+import querypy.local_types as ltype
 
 ItemId  = str
 ItemPropertyName = str
-Item   = Dict[ItemPropertyName, Number]
+Item   = Dict[ItemPropertyName, ltype.Number]

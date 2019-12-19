@@ -1,7 +1,8 @@
+from __future__ import annotations
 from typing import List
 from enum   import Enum
-from querypy.Term   import Term, substitute_terms, SubstituteDict
-from querypy.utils.ListOperator import progressive_comparison
+import querypy.Term   as Term
+import querypy.utils.ListOperator as Ope
 
 
 class FormulaType(Enum):
@@ -19,25 +20,25 @@ class Relations(Enum):
     Equal          = 5
 
 class Formula:
-    def __init__(self, operator: FormulaType, operands: List['Formula'], relation: Relations, terms: List[Term]):
+    def __init__(self, operator: FormulaType, operands: List[Formula], relation: Relations, terms: List[Term.Term]):
         self.operator = operator
         self.operands = operands
         self.relation = relation
         self.terms    = terms
     
-    def evaluate(self, substitute_dict: SubstituteDict) -> bool:
+    def evaluate(self, substitute_dict: Term.SubstituteDict) -> bool:
         if self.operator == FormulaType.ATOMIC:
-            numbers = substitute_terms(self.terms, substitute_dict)
+            numbers = Term.substitute_terms(self.terms, substitute_dict)
             if self.relation == Relations.Equal:
-                return progressive_comparison(numbers, lambda x, y: x == y)
+                return Ope.progressive_comparison(numbers, lambda x, y: x == y)
             elif self.relation == Relations.Greater:
-                return progressive_comparison(numbers, lambda x, y: x > y)
+                return Ope.progressive_comparison(numbers, lambda x, y: x > y)
             elif self.relation == Relations.GreaterOrEqual:
-                return progressive_comparison(numbers, lambda x, y: x >= y)
+                return Ope.progressive_comparison(numbers, lambda x, y: x >= y)
             elif self.relation == Relations.Less:
-                return progressive_comparison(numbers, lambda x, y: x < y)
+                return Ope.progressive_comparison(numbers, lambda x, y: x < y)
             elif self.relation == Relations.LessOrEqual:
-                return progressive_comparison(numbers, lambda x, y: x <= y)
+                return Ope.progressive_comparison(numbers, lambda x, y: x <= y)
             else:
                 raise TypeError("Term's operator has to be " + type(Relations) + ", not " + type(self.operator))
                 
