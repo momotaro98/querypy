@@ -1,0 +1,14 @@
+{
+    "include": [
+        "querypy"
+    ],
+    "ignore": [
+        "venv"
+    ],
+    "venvPath": "venv",
+    "executionEnvironments": [
+        {
+            "root": "."
+        }
+    ]
+}
