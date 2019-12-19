@@ -9,16 +9,29 @@ SubstituteDict = Dict[Item.ItemPropertyName, ltype.Number]
 class VariableTerm:
     def __init__(self, propertyName: Item.ItemPropertyName):
         self.propertyName = propertyName
+    
+    def __abstract_operator__(self, term: Term, relation: Formula.Relations) -> Formula.Formula:
+        try:
+            return Formula.Formula(Formula.FormulaType.ATOMIC, [], relation, [self, term], True)
+        except TypeError:
+            print("Warning: TypeError has occurred. Value " + str(term) + " with type " + type(term) + " doesn't have operations.")
+            return Formula.Formula(Formula.FormulaType.CONSTANT, [], relation, [self, term], False)
 
     def __lt__(self, term: 'Term') -> Formula.Formula:
-        return Formula.Formula(Formula.FormulaType.ATOMIC, [], Formula.Relations.Less, [self, term])
+        return self.__abstract_operator__(term, Formula.Relations.Less)
 
     def __gt__(self, term: 'Term') -> Formula.Formula:
-        return Formula.Formula(Formula.FormulaType.ATOMIC, [], Formula.Relations.Greater, [self, term])
+        return self.__abstract_operator__(term, Formula.Relations.Greater)
     
     def __eq__(self, term: 'Term') -> Formula.Formula:
-        return Formula.Formula(Formula.FormulaType.ATOMIC, [], Formula.Relations.Equal, [self, term])
-    
+        return self.__abstract_operator__(term, Formula.Relations.Equal)
+
+    def __le__(self, term: 'Term') -> Formula.Formula:
+        return self.__abstract_operator__(term, Formula.Relations.LessOrEqual)
+
+    def __ge__(self, term: 'Term') -> Formula.Formula:
+        return self.__abstract_operator__(term, Formula.Relations.Greater)
+
     def substitute(self, substitute_dict: SubstituteDict) -> ltype.Number:
         if self.propertyName in substitute_dict:
             return substitute_dict[self.propertyName]

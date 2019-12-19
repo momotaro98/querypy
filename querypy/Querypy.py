@@ -37,17 +37,17 @@ class Querypy:
         ]
 
 
-def read_csv(filename: str, id_row: Item.ItemId) -> Querypy:  
+def read_csv(filename: str, primary_key: Item.ItemId) -> Querypy:  
     csv_dict_reader = csv.DictReader(open(filename))
-    properties = [ prop for prop in csv_dict_reader.fieldnames if prop != id_row ]
+    properties = [ prop for prop in csv_dict_reader.fieldnames if prop != primary_key ]
 
     def produce_dict(row) -> Item.Item:
-        return { prop: row[prop] for prop in properties}
-    
+        return { prop: float(row[prop]) for prop in properties}
+
     data = {
-        row[id_row]: produce_dict(row)
+        row[primary_key]: produce_dict(row)
         for row in csv_dict_reader
-    } 
+    }
 
     term_dict = { prop: Term.VariableTerm(prop) for prop in properties }
     return Querypy(data, term_dict, properties)

@@ -6,10 +6,11 @@ import querypy.utils.ListOperator as Ope
 
 
 class FormulaType(Enum):
-    ATOMIC = 0
-    AND    = 1
-    OR     = 2
-    NOT    = 3
+    ATOMIC   = 0
+    AND      = 1
+    OR       = 2
+    NOT      = 3
+    CONSTANT = 4
 
 class Relations(Enum):
     DummyRelation  = 0
@@ -20,14 +21,17 @@ class Relations(Enum):
     Equal          = 5
 
 class Formula:
-    def __init__(self, operator: FormulaType, operands: List[Formula], relation: Relations, terms: List[Term.Term]):
+    def __init__(self, operator: FormulaType, operands: List[Formula], relation: Relations, terms: List[Term.Term], default_value: bool):
         self.operator = operator
         self.operands = operands
         self.relation = relation
         self.terms    = terms
+        self.default_value = default_value
     
     def evaluate(self, substitute_dict: Term.SubstituteDict) -> bool:
-        if self.operator == FormulaType.ATOMIC:
+        if self.operator == FormulaType.CONSTANT:
+            return self.default_value
+        elif self.operator == FormulaType.ATOMIC:
             numbers = Term.substitute_terms(self.terms, substitute_dict)
             if self.relation == Relations.Equal:
                 return Ope.progressive_comparison(numbers, lambda x, y: x == y)
@@ -55,11 +59,11 @@ class Formula:
             raise TypeError("Formula's operator has to be " + type(FormulaType) + ", not " + type(self.operator))
     
     def __and__(self, formula: 'Formula') -> 'Formula':
-        return Formula(FormulaType.AND, [self, formula], Relations.DummyRelation, [])
+        return Formula(FormulaType.AND, [self, formula], Relations.DummyRelation, [], True)
     
     def __or__(self, formula: 'Formula')  -> 'Formula':
-        return Formula(FormulaType.OR,  [self, formula], Relations.DummyRelation, [])
+        return Formula(FormulaType.OR,  [self, formula], Relations.DummyRelation, [], True)
     
     def __not__(self, formula: 'Formula') -> 'Formula':
-        return Formula(FormulaType.NOT, [self], Relations.DummyRelation, [])
+        return Formula(FormulaType.NOT, [self], Relations.DummyRelation, [], True)
     
