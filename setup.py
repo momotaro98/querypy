@@ -8,7 +8,7 @@ entry_points = {
 
 setup(
     name="querypy",
-    packages=["querypy"],
+    packages=["querypy", "querypy.utils"],
     version="0.0.0",
     entry_points=entry_points,
     dependencies=[]
