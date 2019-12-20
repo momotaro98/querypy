@@ -58,12 +58,12 @@ class Formula:
         else:
             raise TypeError("Formula's operator has to be " + type(FormulaType) + ", not " + type(self.operator))
     
-    def __and__(self, formula: 'Formula') -> 'Formula':
+    def __and__(self, formula: Formula) -> Formula:
         return Formula(FormulaType.AND, [self, formula], Relations.DummyRelation, [], True)
     
-    def __or__(self, formula: 'Formula')  -> 'Formula':
+    def __or__(self, formula: Formula)  -> Formula:
         return Formula(FormulaType.OR,  [self, formula], Relations.DummyRelation, [], True)
     
-    def __not__(self, formula: 'Formula') -> 'Formula':
+    def __not__(self, formula: Formula) -> Formula:
         return Formula(FormulaType.NOT, [self], Relations.DummyRelation, [], True)
     

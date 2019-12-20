@@ -17,19 +17,19 @@ class VariableTerm:
             print("Warning: TypeError has occurred. Value " + str(term) + " with type " + type(term) + " doesn't have operations.")
             return Formula.Formula(Formula.FormulaType.CONSTANT, [], relation, [self, term], False)
 
-    def __lt__(self, term: 'Term') -> Formula.Formula:
+    def __lt__(self, term: Term) -> Formula.Formula:
         return self.__abstract_operator__(term, Formula.Relations.Less)
 
-    def __gt__(self, term: 'Term') -> Formula.Formula:
+    def __gt__(self, term: Term) -> Formula.Formula:
         return self.__abstract_operator__(term, Formula.Relations.Greater)
     
-    def __eq__(self, term: 'Term') -> Formula.Formula:
+    def __eq__(self, term: Term) -> Formula.Formula:
         return self.__abstract_operator__(term, Formula.Relations.Equal)
 
-    def __le__(self, term: 'Term') -> Formula.Formula:
+    def __le__(self, term: Term) -> Formula.Formula:
         return self.__abstract_operator__(term, Formula.Relations.LessOrEqual)
 
-    def __ge__(self, term: 'Term') -> Formula.Formula:
+    def __ge__(self, term: Term) -> Formula.Formula:
         return self.__abstract_operator__(term, Formula.Relations.Greater)
 
     def substitute(self, substitute_dict: SubstituteDict) -> ltype.Number:
