@@ -47,7 +47,7 @@ class Formula:
                 raise TypeError("Term's operator has to be " + type(Relations) + ", not " + type(self.operator))
                 
         elif self.operator == FormulaType.AND:
-            return (False in [ f.evaluate(substitute_dict) for f in self.operands ])
+            return not (False in [ f.evaluate(substitute_dict) for f in self.operands ])
         elif self.operator == FormulaType.OR:
             return (True  in [ f.evaluate(substitute_dict) for f in self.operands ])
         elif self.operands == FormulaType.NOT:

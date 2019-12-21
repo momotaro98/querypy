@@ -24,16 +24,14 @@ class Querypy:
     def get_data(self, item_id: Item.ItemId, prop: Item.ItemPropertyName) -> ltype.Number:
         return self[item_id][prop]
     
-    def find(self, formula: Formula.Formula) -> List[Item.ItemId]:
-        def get_substitute(item_id: Item.ItemId) -> Term.SubstituteDict:
-            return {
-                prop: self[item_id][prop] for prop in self.properties
-            }
-        
+    def get_substitute_dict(self, primary_key: Item.ItemId) -> Term.SubstituteDict:
+        return { prop: self.get_data(primary_key, prop) for prop in self.properties }
+    
+    def find(self, formula: Formula.Formula) -> List[Item.ItemId]:     
         return [
             item_id for item_id
             in self.data.keys()
-            if formula.evaluate(get_substitute(item_id))
+            if formula.evaluate(self.get_substitute_dict(item_id))
         ]
 
 

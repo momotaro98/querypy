@@ -61,9 +61,10 @@ better_in_math  = math101 > econ101
 pass_math_exam  = 60 <= math101 # -> Error!
 ```
 
-You can create complex formulas by using `and`, `or`, `not`
+You can create complex formulas by using `&`, `|`
 ```py
-perfect = (math101 == 100) and (econ101 == 100)
+perfect   = (math101 == 100) & (econ101 == 100)
+pass_some = (math101 >=  60) | (econ101 >=  60)
 ```
 
 ## Find Records
