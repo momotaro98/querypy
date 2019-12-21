@@ -21,8 +21,8 @@ The input file should satisfy..
 Suppose that you have the following CSV input named `scores.csv`:
 ```csv
 StudentName, Math101, Econ101
-Yamada     ,      80,      50
-Liu        ,      50,      80
+     Yamada,      80,      50
+        Liu,      50,      80
 ```
 
 Let us call each column like `Math101`, `Econ101`, `Comp101` as a property.

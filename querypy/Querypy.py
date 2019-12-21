@@ -38,7 +38,7 @@ class Querypy:
 
 
 def read_csv(filename: str, primary_key: Item.ItemId) -> Querypy:  
-    csv_dict_reader = csv.DictReader(open(filename))
+    csv_dict_reader = csv.DictReader(open(filename), skipinitialspace=True)
     properties = [ prop for prop in csv_dict_reader.fieldnames if prop != primary_key ]
 
     def produce_dict(row) -> Item.Item:
