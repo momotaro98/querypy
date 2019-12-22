@@ -8,18 +8,18 @@ class TestUtils(unittest.TestCase):
         vector = [1, 2, 3]
         bf = lambda x, y: x < y
         # Act
-        actual = ListOperator.progressive_comparison(vector, bf)
+        result = ListOperator.progressive_comparison(vector, bf)
         # Assert
-        self.assertTrue(actual)
+        self.assertTrue(result)
 
     def test_progressive_comparison_False(self):
         # Arrange
         vector = [1, 3, 2]
         bf = lambda x, y: x < y
         # Act
-        actual = ListOperator.progressive_comparison(vector, bf)
+        result = ListOperator.progressive_comparison(vector, bf)
         # Assert
-        self.assertFalse(actual)
+        self.assertFalse(result)
 
 
 if __name__ == "__main__":

@@ -7,4 +7,4 @@ def progressive_comparison(vector: ltype.Vector, binary_function: ltype.BinaryFu
     if size in [0,1]:
         raise ValueError("To progressively compare, more than two elements are needed.")
     else:
-        return not (False in [ binary_function(vector[i], vector[i+1]) for i in range(size - 1) ])
+        return all( binary_function(vector[i], vector[i+1]) for i in range(size - 1) )
