@@ -102,3 +102,11 @@ pip install -r requirements.lock
 pip install package_name
 pip freeze | tee requirements.lock
 ```
+
+## Unit test
+
+The test script should be named as `test_<target_file>.py`.
+
+```
+python -m unittest tests/**/test_*.py -v 
+```
