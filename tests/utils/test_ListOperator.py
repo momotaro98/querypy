@@ -2,7 +2,7 @@ import unittest
 from querypy.utils import ListOperator
 
 
-class TestUtils(unittest.TestCase):
+class TestListOperator(unittest.TestCase):
     def test_progressive_comparison_True(self):
         # Arrange
         vector = [1, 2, 3]
